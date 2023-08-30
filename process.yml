@@ -1,0 +1,15 @@
+apps:
+  - script       : 'src/app.ts'
+    # node_args    : ' -r dotenv/config -r tsconfig-paths/register '
+    node_args    : '-r dotenv/config'
+    name         : 'app'
+    interpreter  : 'ts-node'
+    exec_mode    : 'cluster'
+    watch        :
+      - '*.*'
+    ignore_watch :
+      - 'src/*.test.js'
+    env          :
+      NODE_ENV   : development
+    max_restarts : 300
+    restart_delay: 600000

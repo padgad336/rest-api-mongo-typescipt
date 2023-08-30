@@ -1,0 +1,74 @@
+version: '2.1'
+services:
+  api:
+    depends_on:
+      mongo:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./uploads:/opt/app/uploads
+      - ./media:/opt/app/media
+      - ./pattern:/opt/app/pattern
+      - ./qr:/opt/app/qr
+      - ./assets:/opt/app/assets
+
+    environment:
+      TZ: Asia/Bangkok
+    container_name: api
+    hostname: api
+    networks:
+      - ropa
+    labels:
+      - traefik.web.frontend.rule=Host:ropa-api.scipsu.app
+      - traefik.web.port=8000
+      - traefik.docker.network=ropa
+  mongo:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    volumes:
+      - ./db/mongo:/data/db
+    container_name: mongo
+    hostname: mongo
+    healthcheck:
+      test:
+        [
+          'CMD',
+          '/usr/bin/mongosh',
+          '--eval',
+          "db.adminCommand('ping')"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ropa
+    labels:
+      - traefik.enable=false
+  # redis:
+  #   image: bitnami/redis:latest
+  #   restart: always
+  #   environment:
+  #     ALLOW_EMPTY_PASSWORD: "yes"
+  #     TZ: Asia/Bangkok
+  #   ports:
+  #     - 6379:6379
+  #   container_name: redis
+  #   hostname: redis
+  #   healthcheck:
+  #     test: [ "CMD", "redis-cli", "ping" ]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - ropa
+  #   labels:
+  #     - traefik.enable=false
+networks:
+  ropa:
+    external: true

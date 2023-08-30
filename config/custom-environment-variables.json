@@ -1,0 +1,36 @@
+{
+  "app": {
+    "host": "HOST",
+    "port": "PORT"
+  },
+  "db": {
+    "mongodb": {
+      "uri": "MONGO_URI",
+      "mongooseOptions": {
+        "dbName": "MONGO_DBNAME",
+        "user": "MONGO_USER",
+        "pass": "MONGO_PASS"
+      }
+    }
+  },
+  "jwt": {
+    "secret": "JWT_SECRET"
+  },
+  "mail": {
+    "link": "MAIL_LINK",
+    "user": "MAIL_USER",
+    "pass": "MAIL_PASS",
+    "port": "MAIL_PORT",
+    "secure": "MAIL_SECURE"
+  },
+  "redis": {
+    "host": "REDIS_HOST",
+    "port": "REDIS_PORT",
+    "user": "REDIS_USERNAME",
+    "pass": "REDIS_PASSWORD"
+  },
+  "id24": {
+    "host": "ID24_URL",
+    "key": "ID24_KEY"
+  }
+}
